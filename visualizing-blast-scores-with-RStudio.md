@@ -97,7 +97,7 @@ around with data to see roughly what it looks like.  This is opposed to
 other approaches where we might be trying to do statistical analysis to
 confirm a hypothesis.
 
-Typically with small sample sizes (n < 5) it is hard to do confirmatory
+Typically with small replicate sizes (n < 5) it is hard to do confirmatory
 data analysis or hypothesis testing, so a lot of NGS work is done for
 *hypothesis generation* and then confirmed via additional experimental
 work.
@@ -106,18 +106,7 @@ work.
 
 * Why are we using R for this instead of the UNIX command line, or Excel?
 
-  (We'll talk more about this later, too!)
-  
   One important thing to note here is that we're looking at a pretty large
   data set - with ease.  It would be much slower to do this in Excel.
   
 * What other things could we look at?
-
-----
-  
-Reminder: shut down your instance!
-
-Other topics to discuss:
-
-* when you shut down, you lose all your data
-* what computer(s) is this all happening on?
