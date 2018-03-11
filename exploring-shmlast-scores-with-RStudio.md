@@ -1,13 +1,15 @@
 # Exploring shmlast score distributions in RStudio
 
-Often ...
+(Often you need to run long-running jobs and then explore the output later.
+For short workshops, it isn't feasible to run 20-30 minute jobs so we've
+precomputed the output used below.)
 
 You'll be introduced to the output of
 [shmlast](http://joss.theoj.org/papers/3cde54de7dfbcada7c0fc04f569b36c7),
 which is implements an algorithm for discovering potential orthologs
 between an RNA-seq assembly and a protein database.
 
-https://angus.readthedocs.io/en/2017/running-blast-large-scale.html
+For the full lesson, see: [the ANGUS 2017 tutorial](https://angus.readthedocs.io/en/2017/running-blast-large-scale.html)
 
 ## Digression: What is shmlast doing?
 
@@ -49,11 +51,14 @@ too conservative and will ignore real orthologs.
 
 So Aubry et al. invent *conditional* reciprocal best hit, which tries
 to find close homolog *groupings* that can deal with multi-copy genes.
-shmlast is a reimplementation of that, done by our very own Camille Scott.
+shmlast is a reimplementation of that, done by our Camille Scott in the
+DIB Lab.
 
 ### Why does shmlast take "so long"?
 
-Well, we're calculating all pairwise matches between 36,000 mouse transcripts
+shmlast takes about 15-30 minutes to run. Why so long??
+
+Well, if you look at the ANGUS tutorial we're calculating all pairwise matches between 36,000 mouse transcripts
 and 64,000 cow proteins!  So frankly it's amazing it works so fast in the
 first place!
 
@@ -66,9 +71,14 @@ How do we explore the results?
 
 The main output is `mouse.1.rna.fna.gz.x.cow.faa.crbl.csv`, which is a
 Comma-Separated Value file that you can load into any spreadsheet
-program.  If we look at the file by typing `head
-data/mouse.1.rna.fna.gz.x.cow.faa.crbl.csv` at the command line we
-should see something like this:
+program.  If we look at the file by typing
+
+```
+gunzip -c data/mouse.1.rna.fna.gz.x.cow.faa.crbl.csv.gz > data/mouse.1.rna.fna.gz.x.cow.faa.crbl.csv
+head data/mouse.1.rna.fna.gz.x.cow.faa.crbl.csv
+```
+
+at the command line we should see something like this:
 
 ```
 E,EG2,E_scaled,ID,bitscore,q_aln_len,q_frame,q_len,q_name,q_start,q_strand,s_aln_len,s_len,s_name,s_start,s_strand,score
@@ -82,7 +92,7 @@ E,EG2,E_scaled,ID,bitscore,q_aln_len,q_frame,q_len,q_name,q_start,q_strand,s_aln
 4.8e-183,5.6e-155,182.3187587626244,373474,572.2147555793716,266,0,310,"ref|XR_001782298.1| PREDICTED: Mus musculus predicted gene 4786 (Gm4786), misc_RNA",29,+,266,266,ref|NP_001035610.1| 60S ribosomal protein L7a [Bos taurus],0,+,1289.0
 3.2e-153,3.1e-138,152.4948500216801,643504,516.6020212552417,246,1,659,"ref|NR_003628.1| Mus musculus predicted gene 5766 (Gm5766), non-coding RNA",357,+,246,266,ref|NP_001035610.1| 60S ribosomal protein L7a [Bos taurus],0,+,1163.0
 ```
-(note that you can scroll to the right within the text to see all the output.)
+(note that you can scroll to the right within the text in this tutorial to see all the output.)
 
 Here the columns are helpfully labeled, but it's still kind of a mess
 to look at - we'll look at in more detail in R, instead of using the
@@ -92,6 +102,10 @@ tell you which *query* and which *subject* sequences match each other.
 How big is this file? Big!  You can calculate how many lines are
 present by using the `wc` command, which will tell you how many lines,
 words, and characters are in the file:
+
+```
+wc data/mouse.1.rna.fna.gz.x.cow.faa.crbl.csv
+```
 
 ```
   132901  2918423 39291181 mouse.1.rna.fna.gz.x.cow.faa.crbl.csv
@@ -116,30 +130,27 @@ Read the precomputed object below in to R, and name it something that
 you might remember:
 
 ```
-shmlast_out <- read.csv("data/shmlast_mouse.rna.fna.gz.x.cow.faa.crbl.csv")
+shmlast_out <- read.csv("data/mouse.1.rna.fna.gz.x.cow.faa.crbl.csv")
 ```
 
 Now we can take a look at the data in a slightly nicer way!
 
-@CTB as with ... This is called a dataframe, which is a sort of R-ish version of a
-spreadsheet with named columns. Use the `head()` command to take a
+As with
+[visualizing BLAST scores](visualizing-blast-scores-with-RStudio.md),
+this is now a dataframe.  Use the `head()` command to take a
 look at the beginning of it all:
 
 ```
 head(shmlast_out)
 ```
 
-this is a generic R command that acts very much like the UNIX command
-line `head` command but gives you a slightly nicer more structured view.
-In RStudio you can also use the `view` command,
+and View to get a nice view in RStudio:
 
 ```
 View(shmlast_out)
 ```
-which is much nicer altogether!
 
-Another useful command is `dim` which will tell you the DIMENSIONS of this
-data frame:
+Run dim as before:
 
 ```
 dim(shmlast_out)
@@ -147,7 +158,7 @@ dim(shmlast_out)
 
 That's a big data frame! 132,900 rows (and 17 columns!)
 
-Let's do some data visualization to get a handle on what our blast output looked like: first, let's look at the `E_scaled` column.
+Hist, as before:
 
 ```
 hist(shmlast_out$E_scaled)

@@ -26,7 +26,7 @@ curl -o mouse.2.protein.faa.gz -L https://osf.io/j2qxk/download
 curl -o zebrafish.1.protein.faa.gz -L https://osf.io/68mgf/download
 ```
 
-    If you look at the files in the current directory, you should see four
+If you look at the files in the current directory, you should see four
 files, along with a directory called lost+found which is for system
 information:
 
