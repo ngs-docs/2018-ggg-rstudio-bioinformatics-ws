@@ -9,3 +9,4 @@ RStudio: [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/
 Start with [Running command-line BLAST](running-command-line-blast.md).
 
 Next, [Visualizing BLAST score distributions in RStudio](visualizing-blast-scores-with-RStudio.md).
+
