@@ -2,9 +2,16 @@
 
 (Some basic introduction to R and RStudio.)
 
+## The questions for today:
+
+The questions we will attempt to answer are,
+
+* what is the distribution of expectation values (e-values) and bitscores for our BLAST of all zebrafish genes against all mouse genes?
+* what is the relationship, if any, between e-values and bitscores?
+
 ## Enter some R commands
 
-(Enter the below commands into RStudio, not the command line.)
+(Enter the below commands into RStudio Console, not the command line.)
 
 Load the data you created with BLAST:
 
